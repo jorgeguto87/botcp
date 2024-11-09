@@ -1,7 +1,11 @@
-const qrcode = require ('qrcode-terminal');
-const { Client, MessageMedia, Events, Buttons, List, MessageTypes } = require ('whatsapp-web.js');
-const client = new Client ();
+const qrcode = require('qrcode-terminal');
+const { Client, LocalAuth, Buttons, List, MessageMedia, MessageTypes } = require('whatsapp-web.js');
+const client = new Client ({
+    authStrategy: new LocalAuth()
 
+});
+
+    
 client.on('qr', qr => {
     qrcode.generate(qr, {small: true});
 });
@@ -11,7 +15,6 @@ client.on('ready', () => {
 });
 
 client.initialize();
-
 
 function saudacao() {
     const data = new Date();
