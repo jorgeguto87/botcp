@@ -92,8 +92,22 @@ client.on('message', async (msg) => {
 
     
 
+    };
+        if (msg.body.match (/Olá, gostaria de/i) && msg.from.endsWith ('@c.us'))  {
+        const chat = await msg.getChat();
+        const contact = await msg.getContact();
+        const name = contact.pushname;                            
+              
+            await delay(3000);
+            await chat.sendStateTyping();
+            await delay(3000);
+            await client.sendMessage(msg.from, saudacao() + name.split(" ")[0] + '!\n🙋‍♂️ Sou o *Rodrigo,* assistente virtual da *Casa Perfeita Planejados!*\n_Como posso ajudar?_\n\nPor favor digite o *NÚMERO* de uma das opções abaixo. 👇\n\n1️⃣ - Realizar projeto\n2️⃣ - Catálogo\n3️⃣ - Assistência técnica\n4️⃣ - Acompanhar entrega\n5️⃣ - Outros assuntos');
+
+
+    
+
     }
-        else if (msg.body === "Olá!")  {
+       else if (msg.body === "Olá!")  {
         const chat = await msg.getChat();
         const contact = await msg.getContact();
         const name = contact.pushname;                            
