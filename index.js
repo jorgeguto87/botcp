@@ -79,7 +79,7 @@ client.on('message', async (msg) => {
     
 
     };
-    if (msg.body.match (/Olá! Gostaria de mais informações por favor/i) && msg.from.endsWith ('@c.us'))  {
+    if (msg.body.match (/Olá! Gostaria de mais informações/i) && msg.from.endsWith ('@c.us'))  {
         const chat = await msg.getChat();
         const contact = await msg.getContact();
         const name = contact.pushname;                            
