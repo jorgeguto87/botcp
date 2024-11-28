@@ -94,7 +94,7 @@ function domingo() {
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 client.on('message', async (msg) => {
     
-    if (msg.body.match (/(Oi|Bom Dia|Boa tarde)/i) && msg.from.endsWith('@c.us'))  {
+    if (msg.body.match (/(Oi|Bom Dia|Boa tarde)/i) && msg.from.endsWith('@c.us') && !msg.from.endsWith(internos))  {
         const chat = await msg.getChat();
         const contact = await msg.getContact();
         const name = contact.pushname;
