@@ -42,7 +42,36 @@ function atendente() {
         }
     return strdois;
 };
-
+const internos = [
+    '5521964172978@c.us',
+    '5521965031564@c.us',
+    '5521970154471@c.us',
+    '5521971486143@c.us',
+    '5521974993413@c.us',
+    '5521978970237@c.us',
+    '5521981140201@c.us',
+    '5521986958759@c.us',
+    '5521987956190@c.us',
+    '5521989297627@c.us',
+    '5521994474663@c.us',
+    '5521996987241@c.us',
+    '555174002508@c.us',
+    '555174007501@c.us',
+    '555180472374@c.us',
+    '555180587355@c.us',
+    '555186044153@c.us',
+    '555196395635@c.us',
+    '555197143001@c.us',
+    '555199749379@c.us',
+    '555199888186@c.us',
+    '555496688814@c.us',
+    '555496750286@c.us',
+    '555497143333@c.us',
+    '555499465484@c.us',
+    '555499487420@c.us',
+    '555499819019@c.us',
+    '5551998718843@c.us'
+];
 const hash = "#";
 const zero = "0";
 function domingo() {
@@ -79,29 +108,30 @@ client.on('message', async (msg) => {
     
 
     };
-    if (msg.body.match (/Olá! Gostaria de/i) && msg.from.endsWith ('@c.us'))  {
+    if (msg.body.match (/Olá! Gostaria de/i) && msg.from.endsWith ('@c.us') && !msg.from.endsWith(internos))  {
         const chat = await msg.getChat();
         const contact = await msg.getContact();
         const name = contact.pushname;                            
-              
+        const logo = MessageMedia.fromFilePath('./logo.jpg');      
             await delay(3000);
             await chat.sendStateTyping();
             await delay(3000);
-            await client.sendMessage(msg.from, saudacao() + name.split(" ")[0] + '!\n🙋‍♂️ Sou o *Rodrigo,* assistente virtual da *Casa Perfeita Planejados!*\n_Como posso ajudar?_\n\nPor favor digite o *NÚMERO* de uma das opções abaixo. 👇\n\n1️⃣ - Realizar projeto\n2️⃣ - Catálogo\n3️⃣ - Assistência técnica\n4️⃣ - Acompanhar entrega\n5️⃣ - Outros assuntos');
+            await client.sendMessage(msg.from, logo, {caption: saudacao() + name.split(" ")[0] + '!\n🙋‍♂️ Sou o *Rodrigo,* assistente virtual da *Casa Perfeita Planejados!*\n_Como posso ajudar?_\n\nPor favor digite o *NÚMERO* de uma das opções abaixo. 👇\n\n1️⃣ - Realizar projeto\n2️⃣ - Catálogo\n3️⃣ - Assistência técnica\n4️⃣ - Acompanhar entrega\n5️⃣ - Outros assuntos'});
 
 
     
 
     };
-        if (msg.body.match (/Olá, gostaria de/i) && msg.from.endsWith ('@c.us'))  {
+        if (msg.body.match (/Olá, gostaria de/i) && msg.from.endsWith ('@c.us')  && !msg.from.endsWith(internos))  {
         const chat = await msg.getChat();
         const contact = await msg.getContact();
-        const name = contact.pushname;                            
+        const name = contact.pushname;
+        const logo = MessageMedia.fromFilePath('./logo.jpg');   
               
             await delay(3000);
             await chat.sendStateTyping();
             await delay(3000);
-            await client.sendMessage(msg.from, saudacao() + name.split(" ")[0] + '!\n🙋‍♂️ Sou o *Rodrigo,* assistente virtual da *Casa Perfeita Planejados!*\n_Como posso ajudar?_\n\nPor favor digite o *NÚMERO* de uma das opções abaixo. 👇\n\n1️⃣ - Realizar projeto\n2️⃣ - Catálogo\n3️⃣ - Assistência técnica\n4️⃣ - Acompanhar entrega\n5️⃣ - Outros assuntos');
+            await client.sendMessage(msg.from, logo, {caption: saudacao() + name.split(" ")[0] + '!\n🙋‍♂️ Sou o *Rodrigo,* assistente virtual da *Casa Perfeita Planejados!*\n_Como posso ajudar?_\n\nPor favor digite o *NÚMERO* de uma das opções abaixo. 👇\n\n1️⃣ - Realizar projeto\n2️⃣ - Catálogo\n3️⃣ - Assistência técnica\n4️⃣ - Acompanhar entrega\n5️⃣ - Outros assuntos'});
 
 
     
