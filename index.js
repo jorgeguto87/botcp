@@ -97,12 +97,13 @@ client.on('message', async (msg) => {
     if (msg.body.match (/(Oi|Bom Dia|Boa tarde)/i) && msg.from.endsWith('@c.us'))  {
         const chat = await msg.getChat();
         const contact = await msg.getContact();
-        const name = contact.pushname;                            
+        const name = contact.pushname;
+        const logo = MessageMedia.fromFilePath('./logo.jpg');
               
             await delay(3000);
             await chat.sendStateTyping();
             await delay(3000);
-            await client.sendMessage(msg.from, saudacao() + name.split(" ")[0] + '!\n🙋‍♂️ Sou o *Rodrigo,* assistente virtual da *Casa Perfeita Planejados!*\n_Como posso ajudar?_\n\nPor favor digite o *NÚMERO* de uma das opções abaixo. 👇\n\n1️⃣ - Realizar projeto\n2️⃣ - Catálogo\n3️⃣ - Assistência técnica\n4️⃣ - Acompanhar entrega\n5️⃣ - Outros assuntos');
+            await client.sendMessage(msg.from, logo, {caption: saudacao() + name.split(" ")[0] + '!\n🙋‍♂️ Sou o *Rodrigo,* assistente virtual da *Casa Perfeita Planejados!*\n_Como posso ajudar?_\n\nPor favor digite o *NÚMERO* de uma das opções abaixo. 👇\n\n1️⃣ - Realizar projeto\n2️⃣ - Catálogo\n3️⃣ - Assistência técnica\n4️⃣ - Acompanhar entrega\n5️⃣ - Outros assuntos'});
 
 
     
