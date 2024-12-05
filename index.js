@@ -94,7 +94,7 @@ function domingo() {
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 client.on('message', async (msg) => {
     
-    if (msg.body.match (/(Oi|Bom Dia|Boa tarde)/i) && msg.from.endsWith('@c.us') && !msg.from.endsWith(internos))  {
+    if (msg.body.match (/(Oi|Bom Dia|Boa tarde)/i) && msg.from.endsWith('@c.us') && !msg.from.includes(internos))  {
         const chat = await msg.getChat();
         const contact = await msg.getContact();
         const name = contact.pushname;
@@ -109,7 +109,7 @@ client.on('message', async (msg) => {
     
 
     };
-    if (msg.body.match (/Olá! Gostaria de/i) && msg.from.endsWith ('@c.us') && !msg.from.endsWith(internos))  {
+    if (msg.body.match (/Olá! Gostaria de/i) && msg.from.endsWith ('@c.us') && !msg.from.includes(internos))  {
         const chat = await msg.getChat();
         const contact = await msg.getContact();
         const name = contact.pushname;                            
@@ -123,7 +123,7 @@ client.on('message', async (msg) => {
     
 
     };
-        if (msg.body.match (/Olá, gostaria de/i) && msg.from.endsWith ('@c.us')  && !msg.from.endsWith(internos))  {
+        if (msg.body.match (/Olá, gostaria de/i) && msg.from.endsWith ('@c.us')  && !msg.from.includes(internos))  {
         const chat = await msg.getChat();
         const contact = await msg.getContact();
         const name = contact.pushname;
