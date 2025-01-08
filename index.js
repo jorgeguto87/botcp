@@ -3,9 +3,9 @@ const { Client, LocalAuth, List, Buttons, MessageTypes, MessageMedia} = require 
 const client = new Client({
     authStrategy: new LocalAuth()
 });
+const fs = require ('fs');
 const cron = require ('node-cron');
 const horarios = [11, 15, 18, 21, 23];
-const fs = require ('fs');
 const feriados = [
     '01-18', //Paixão de Cristo
     '04-21', // Tiradentes
@@ -304,15 +304,15 @@ async function handleUserMessage() {
                 await delay (3000);
                 await chat.sendStateTyping();
                 await delay (3000);    
-                await client.sendMessage(msg.from, '😃 *Tudo bem, iremos te ajudar*\n\nVou pedir que preencha o nosso formulário de *briefing abaixo* para entender melhor o seu projeto. 👇\n\nhttps://casaperfeitaplanejados.com.br/?page_id=639');
+                await client.sendMessage(msg.from, '😃 *Tudo bem, iremos te ajudar*\n\nSe puder preencher o nosso formulário de *briefing abaixo* vai nos ajudar muito a entender melhor sua necessidade. 👇\n\nhttps://casaperfeitaplanejados.com.br/?page_id=639');
                 await delay (3000);
                 await chat.sendStateTyping();
                 await delay (3000);
-                await client.sendMessage(msg.from, '➡️ É muito *importante* preencher todos os campos do formulário para nossa equipe conseguir desenvolver um projeto perfeito para você.');
+                await client.sendMessage(msg.from, '➡️ É muito *importante* preencher todos os campos do formulário para nossa equipe conseguir desenvolver um projeto perfeito para você. 😃');
                 await delay (3000);
                 await chat.sendStateTyping();
                 await delay (3000);
-                await client.sendMessage(msg.from, '👋 *Até logo!*');
+                await client.sendMessage(msg.from, 'Gostaria de preencher agora ou prefere dar continuidade para preencher em outro momento?\n\n#️⃣ - *PREENCHER AGORA*\n0️⃣ - *PREENCHER DEPOIS*');
                 state[from] = {step: 3};
                 break;
 
@@ -320,7 +320,7 @@ async function handleUserMessage() {
                 await delay (3000);
                 await chat.sendStateTyping();
                 await delay (3000);    
-                await client.sendMessage(msg.from, '😃 *Perfeito!*\n\nVou pedir que preencha o nosso formulário de *briefing abaixo* para entender melhor o seu projeto. 👇\n\nhttps://casaperfeitaplanejados.com.br/?page_id=639');
+                await client.sendMessage(msg.from, '😃 *Perfeito!*\n\nSe puder preencher o nosso formulário de *briefing abaixo* vai nos ajudar muito a entender melhor sua necessidade. 👇\n\nhttps://casaperfeitaplanejados.com.br/?page_id=639');
                 await delay (3000);
                 await chat.sendStateTyping();
                 await delay (3000);
@@ -328,7 +328,7 @@ async function handleUserMessage() {
                 await delay (3000);
                 await chat.sendStateTyping();
                 await delay (3000);
-                await client.sendMessage(msg.from, '👋 *Até logo!*');
+                await client.sendMessage(msg.from, 'Gostaria de preencher agora ou prefere dar continuidade para preencher em outro momento?\n\n#️⃣ - *PREENCHER AGORA*\n0️⃣ - *PREENCHER DEPOIS*');
                 state[from] = {step: 3};
                 break;
                 
@@ -354,7 +354,57 @@ async function handleUserMessage() {
                 
             }       
             
-        }else if (userState.step === 3) {
+        }else if(userState.step === 3) {
+            switch (mensagem) {
+                case "#":
+                await delay (3000);
+                await chat.sendStateTyping();
+                await delay (3000);    
+                await client.sendMessage(msg.from, '😃 *Maravilha*\n\nVou aguardar o preenchimento do formulário para continuar com o seu atendimento.');
+                await delay (3000);
+                await chat.sendStateTyping();
+                await delay (3000);
+                await client.sendMessage(msg.from, '👋 *Até logo!*');
+                state[from] = {step: 4};
+                break;
+
+             case "0":
+                await delay (3000);
+                await chat.sendStateTyping();
+                await delay (3000);    
+                await client.sendMessage(msg.from, '😉 *Sem problemas!*\n\nVamos dar continuidade com o seu atendimento.');
+                await delay (3000);
+                await chat.sendStateTyping();
+                await delay (3000);
+                await client.sendMessage(msg.from, 'Você possui a planta ou imagens do ambiente?\n\nIsso irá nos ajudar bastante na construção do seu projeto. 😉\n\n8️⃣ - SIM\n9️⃣ - NÃO');
+                state[from] = {step: 5};
+                return;
+                
+                default:
+                    if (userState.attempts === undefined) userState.attempts = 0;
+                    userState.attempts++;
+                    const tentativasRestantes = MAX_ATTEMPTS - userState.attempts;
+                    if (userState.attempts >= MAX_ATTEMPTS) {
+                        await client.sendMessage(
+                            msg.from,
+                            '❌ *Número de tentativas excedido!*\nAtendimento finalizado!\n\nDigite *Oi* para iniciar.'
+                        );
+                        state[from] = { step: 0, attempts: 0 };
+                        delete state[from]; 
+                    } else {
+                        await client.sendMessage(
+                            msg.from,
+                            `❌ *Opção inválida!*\nVocê tem mais ${tentativasRestantes} tentativa(s).`
+                        );
+                    }
+                    return;
+
+                
+            }       
+            
+        }
+        
+        else if (userState.step === 4) {
             const formRegex = ['Venho através do site', 'Disponibilidade de investimento', 'Olá, tudo bem?'];
             if (formRegex.some((word) => mensagem.includes(word))) {
                 const audio = MessageMedia.fromFilePath('./audio_carol.mp3');
@@ -370,7 +420,7 @@ async function handleUserMessage() {
                 await chat.sendStateTyping();
                 await delay (3000);
                 await client.sendMessage(msg.from, 'Você possui a planta ou imagens do ambiente?\n\nIsso irá nos ajudar bastante na construção do seu projeto. 😉\n\n8️⃣ - SIM\n9️⃣ - NÃO');
-                state[from] = {step: 4};
+                state[from] = {step: 5};
                 return;
            
             
@@ -395,14 +445,14 @@ async function handleUserMessage() {
                 
             }
             
-        } else if (userState.step === 4) {
+        } else if (userState.step === 5) {
             switch (mensagem) {
                 case "8":
                     await delay (3000);
                     await chat.sendStateTyping();
                     await delay (3000);
                     await client.sendMessage(msg.from, '😃 *Perfeito!*\n\nVou aguardar o envio dos arquivos que possuir.');
-                    state[from] = {step: 5};
+                    state[from] = {step: 6};
                     return;
                 case "9":
                     await delay (3000);
@@ -438,14 +488,14 @@ async function handleUserMessage() {
 
             
             
-            } else if (userState.step === 5) {
+            } else if (userState.step === 6) {
 
                 if (msg.hasMedia && (msg.type === 'image' || msg.type === 'document') && msg.from.endsWith('@c.us')) {
                     await delay (3000);
                     await chat.sendStateTyping();
                     await delay (3000);
                     await client.sendMessage(msg.from, '😃 *Excelente!*\n\nAlém deste arquivo, você possui outro?\n\n8️⃣ - SIM\n9️⃣ - NÃO');
-                    state[from] = {step: 6};
+                    state[from] = {step: 7};
                     return;                   
                     
                     
@@ -471,14 +521,14 @@ async function handleUserMessage() {
                     
                 }
 
-            }else if (userState.step === 6) {
+            }else if (userState.step === 7) {
                 switch (mensagem) {
                     case "8":
                         await delay (3000);
                         await chat.sendStateTyping();
                         await delay (3000);
                         await client.sendMessage(msg.from, '😃 *Perfeito!*\n\nEstou aguardando o envio.');
-                        state[from] = {step: 5};
+                        state[from] = {step: 6};
                         return;
                     case "9":
                         await delay (3000);
@@ -529,13 +579,21 @@ async function handleUserMessage() {
 
      condicaoanuncios = true;
      
-     cron.schedule('* * * * *', async () => {
+     let mensagensEnviadas = new Set();
+     cron.schedule('0 * * * *', async () => {
         const agora = new Date();
-        const horaUTC = agora.getUTCHours();
-        const horaAtual = (horaUTC + 3) % 24;
+        const horaAtual = agora.getHours();
         const diaAtual = agora.getDay();
 
         if (diaAtual >= 1 && diaAtual <= 6 && horarios.includes(horaAtual)) {
+            
+            const chaveEnvio = `${diaAtual}-${horaAtual}`;
+            if (mensagensEnviadas.has(chaveEnvio)){
+                return;
+            }
+
+            mensagensEnviadas.add(chaveEnvio);
+
             const imagens = [
                 './diaum.jpg',
                 './diadois.jpg',
