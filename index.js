@@ -50,7 +50,17 @@ const internos = [
     '555499487420@c.us',
     '555499819019@c.us',
     '5551998718843@c.us',
-    '5521998016036@c.us'
+    '5521998016036@c.us',
+    '120363352156460722@g.us',
+    '5521995293009-1591574958@g.us',
+    '5521995365441-1587173568@g.us',
+    '120363039621149962@g.us', 
+    '5521992884522-1634652354@g.us',
+    '120363045569895184@g.us',
+    '120363143030407637@g.us',
+    '120363029538805156@g.us',
+    '120363049713481319@g.us',
+    '@g.us'
 ];
 
 const grupos = [
@@ -59,6 +69,8 @@ const grupos = [
     '120363045569895184@g.us',
     '120363143030407637@g.us',
     '120363029538805156@g.us',
+    '5521995293009-1591574958@g.us',
+    '5521995365441-1587173568@g.us',
     '120363049713481319@g.us' ];
 
 client.on('qr', qr => {
@@ -176,9 +188,12 @@ const state = {};
 async function handleUserMessage() {
     
     client.on('message', async (msg) => {   
-        if (msg.isGroup || internos.includes(msg.from)) {
-            return; 
+        if (msg.isGroup || 
+            internos.some(id => id === '@g.us' ? msg.from.endsWith('@g.us'): id === msg.from)) {
+            return;
         }
+
+        
     const from = msg.from;
     const mensagem = msg.body || msg.from.endsWith('@c.us');   
     const chat = await msg.getChat();
@@ -191,13 +206,13 @@ async function handleUserMessage() {
         const saudacoes = ['oi', 'bom dia', 'boa tarde', 'olá', 'Olá', 'Oi', 'Boa noite', 'Bom Dia', 'Bom dia', 'Boa Tarde', 'Boa tarde', 'Boa Noite', 'boa noite'];
         const catalogo = MessageMedia.fromFilePath('./catalogo_de_cores_casa_perfeita.pdf');
         if (userState.step === 0) {
-            if (saudacoes.includes(mensagem)) {
+            if (saudacoes.some(palavra => mensagem.includes(palavra))) {
                 state.step = "mainMenu";
                 const logo = MessageMedia.fromFilePath('./logo.jpg');
                 await delay(3000);
                 await chat.sendStateTyping();
                 await delay(3000);
-                await client.sendMessage(msg.from, logo, { caption: `🙋‍♂️ *Olá, ${name}!* ${saudacao()}\n\nSou o Rodrigo, assistente virtual da *Casa Perfeita Planejados.*\n_Como posso ajudar?_\n\nDigite o *NÚMERO* de uma das opções abaixo:\n1️⃣ - Realizar projeto\n2️⃣ - Catálogo\n3️⃣ - Assistência técnica\n4️⃣ - Acompanhar entrega\n5️⃣ - Outros assuntos` });
+                await client.sendMessage(msg.from, logo, { caption: `🙋‍♂️ *Olá, ${name}!* ${saudacao()}\n\nSou o Rodrigo, assistente virtual da *Casa Perfeita Planejados.*\n_Como posso ajudar?_\n\nDigite o *NÚMERO* de uma das opções abaixo:\n1️⃣ - Realizar projeto\n2️⃣ - Catálogo\n3️⃣ - Assistência técnica\n4️⃣ - Acompanhar entrega\n5️⃣ - Outros assuntos\n6️⃣ - Estou em atendimento` });
                 state[from] = {step: 1};
                 return;
         }
@@ -246,6 +261,7 @@ async function handleUserMessage() {
                 await chat.sendStateTyping();
                 await delay (3000);
                 await client.sendMessage(msg.from, atendente());
+                await delay (450000);
                 delete state[from];
                 break;
             case "4":
@@ -261,6 +277,7 @@ async function handleUserMessage() {
                 await chat.sendStateTyping();
                 await delay (3000);
                 await client.sendMessage(msg.from, atendente());
+                await delay (450000);
                 delete state[from];
                 break;
             case "5":
@@ -272,6 +289,15 @@ async function handleUserMessage() {
                 await chat.sendStateTyping();
                 await delay (3000);
                 await client.sendMessage(msg.from, atendente());
+                await delay (450000);
+                delete state[from];
+                break;
+            case "6":
+                await delay(3000);
+                await chat.sendStateTyping();
+                await delay(3000);
+                await client.sendMessage(msg.from, atendente());
+                await delay (450000);
                 delete state[from];
                 break;
 
@@ -463,6 +489,7 @@ async function handleUserMessage() {
                     await chat.sendStateTyping();
                     await delay (3000);
                     await client.sendMessage(msg.from, atendente());
+                    await delay (450000);
                     delete state[from];
                     break;
                 
@@ -490,7 +517,7 @@ async function handleUserMessage() {
             
             } else if (userState.step === 6) {
 
-                if (msg.hasMedia && (msg.type === 'image' || msg.type === 'document') && msg.from.endsWith('@c.us')) {
+                if (msg.hasMedia && (msg.type === 'image' || msg.type === 'document' || msg.type === 'video') && msg.from.endsWith('@c.us')) {
                     await delay (3000);
                     await chat.sendStateTyping();
                     await delay (3000);
@@ -539,6 +566,7 @@ async function handleUserMessage() {
                         await chat.sendStateTyping();
                         await delay (3000);
                         await client.sendMessage(msg.from, atendente());
+                        await delay (450000);
                         delete state[from];
                         break;
                     
