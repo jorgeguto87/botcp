@@ -261,7 +261,7 @@ async function handleUserMessage() {
                 await chat.sendStateTyping();
                 await delay (3000);
                 await client.sendMessage(msg.from, atendente());
-                await delay (450000);
+                await delay (2700000);
                 delete state[from];
                 break;
             case "4":
@@ -277,7 +277,7 @@ async function handleUserMessage() {
                 await chat.sendStateTyping();
                 await delay (3000);
                 await client.sendMessage(msg.from, atendente());
-                await delay (450000);
+                await delay (2700000);
                 delete state[from];
                 break;
             case "5":
@@ -289,7 +289,7 @@ async function handleUserMessage() {
                 await chat.sendStateTyping();
                 await delay (3000);
                 await client.sendMessage(msg.from, atendente());
-                await delay (450000);
+                await delay (2700000);
                 delete state[from];
                 break;
             case "6":
@@ -297,7 +297,7 @@ async function handleUserMessage() {
                 await chat.sendStateTyping();
                 await delay(3000);
                 await client.sendMessage(msg.from, atendente());
-                await delay (450000);
+                await delay (2700000);
                 delete state[from];
                 break;
 
@@ -489,7 +489,7 @@ async function handleUserMessage() {
                     await chat.sendStateTyping();
                     await delay (3000);
                     await client.sendMessage(msg.from, atendente());
-                    await delay (450000);
+                    await delay (2700000);
                     delete state[from];
                     break;
                 
@@ -566,7 +566,7 @@ async function handleUserMessage() {
                         await chat.sendStateTyping();
                         await delay (3000);
                         await client.sendMessage(msg.from, atendente());
-                        await delay (450000);
+                        await delay (2700000);
                         delete state[from];
                         break;
                     
