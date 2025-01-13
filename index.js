@@ -206,7 +206,7 @@ async function handleUserMessage() {
         const saudacoes = ['oi', 'bom dia', 'boa tarde', 'olá', 'Olá', 'Oi', 'Boa noite', 'Bom Dia', 'Bom dia', 'Boa Tarde', 'Boa tarde', 'Boa Noite', 'boa noite'];
         const catalogo = MessageMedia.fromFilePath('./catalogo_de_cores_casa_perfeita.pdf');
         if (userState.step === 0) {
-            if (saudacoes.some(palavra => mensagem.includes(palavra))) {
+            if (saudacoes.some(palavra => msg.body.includes(palavra))) {
                 state.step = "mainMenu";
                 const logo = MessageMedia.fromFilePath('./logo.jpg');
                 await delay(3000);
@@ -261,9 +261,8 @@ async function handleUserMessage() {
                 await chat.sendStateTyping();
                 await delay (3000);
                 await client.sendMessage(msg.from, atendente());
-                await delay (2700000);
-                delete state[from];
-                break;
+                state [from] = {step:8};
+                return;
             case "4":
                 await delay (3000);
                 await chat.sendStateTyping();
@@ -277,9 +276,8 @@ async function handleUserMessage() {
                 await chat.sendStateTyping();
                 await delay (3000);
                 await client.sendMessage(msg.from, atendente());
-                await delay (2700000);
-                delete state[from];
-                break;
+                state [from] = {step:8};
+                return;
             case "5":
                 await delay (3000);
                 await chat.sendStateTyping();
@@ -289,17 +287,15 @@ async function handleUserMessage() {
                 await chat.sendStateTyping();
                 await delay (3000);
                 await client.sendMessage(msg.from, atendente());
-                await delay (2700000);
-                delete state[from];
-                break;
+                state [from] = {step:8};
+                return;
             case "6":
                 await delay(3000);
                 await chat.sendStateTyping();
                 await delay(3000);
                 await client.sendMessage(msg.from, atendente());
-                await delay (2700000);
-                delete state[from];
-                break;
+                state [from] = {step:8};
+                return;
 
                 default:
                     if (userState.attempts === undefined) userState.attempts = 0;
@@ -432,7 +428,7 @@ async function handleUserMessage() {
         
         else if (userState.step === 4) {
             const formRegex = ['Venho através do site', 'Disponibilidade de investimento', 'Olá, tudo bem?'];
-            if (formRegex.some((word) => mensagem.includes(word))) {
+            if (formRegex.some((word) => msg.body.includes(word))) {
                 const audio = MessageMedia.fromFilePath('./audio_carol.mp3');
                 await delay (3000);
                 await chat.sendStateTyping();
@@ -489,9 +485,8 @@ async function handleUserMessage() {
                     await chat.sendStateTyping();
                     await delay (3000);
                     await client.sendMessage(msg.from, atendente());
-                    await delay (2700000);
-                    delete state[from];
-                    break;
+                    state [from] = {step:8};
+                    return;
                 
                     default:
                         if (userState.attempts === undefined) userState.attempts = 0;
@@ -566,9 +561,8 @@ async function handleUserMessage() {
                         await chat.sendStateTyping();
                         await delay (3000);
                         await client.sendMessage(msg.from, atendente());
-                        await delay (2700000);
-                        delete state[from];
-                        break;
+                        state [from] = {step:8};
+                        return;
                     
                         default:
                             if (userState.attempts === undefined) userState.attempts = 0;
@@ -588,6 +582,18 @@ async function handleUserMessage() {
                                 );
                             }
                                     return;
+                }
+            }else if (userState.step === 8){
+                if (saudacoes.some(ignorar => msg.body.includes(ignorar))){
+                    await delay(1800000);
+                    delete state[from];
+                    return;
+               
+                }else if(!saudacoes.some(ignorando => msg.body.includes(ignorando))){
+                    await delay(1800000);
+                    delete state[from];
+                    return;
+
                 }
             }
             
@@ -623,12 +629,12 @@ async function handleUserMessage() {
             mensagensEnviadas.add(chaveEnvio);
 
             const imagens = [
-                './diaum.jpg',
+                './diaum.jpeg',
                 './diadois.jpg',
                 './diatres.jpg',
                 './diaquatro.jpg',
                 'diacinco.jpg',
-                'diaseis.jpg'
+                'diaseis.jpeg'
             ];
 
             const caminhoImagem = imagens[diaAtual - 1];
